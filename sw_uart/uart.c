@@ -23,7 +23,9 @@
 void uartInit(uint32_t baudrate)
 {
 	// Set uart baudrate register
-	UBRR = ((F_CPU+baudrate*8L)/(baudrate*16L)-1);
+	uint8_t ubrr  = ((F_CPU+baudrate*8L)/(baudrate*16L)-1);
+	UBRR0H = (unsigned int)(ubrr >> 8);
+	UBRR0L = (unsigned int)(ubrr);
 
 	// enable rx and tx for uart
 	UCSR0B |= (1 << RXEN0) | (1 << TXEN0);
@@ -63,6 +65,6 @@ void uartPutString_P(const char *addr)
 {
 	unsigned char c;
 
-	while((c = pgm_read_byte(addr++))
+	while((c = pgm_read_byte(addr++)))
 		uartSendByte(c);
 }

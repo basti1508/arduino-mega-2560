@@ -16,7 +16,7 @@
  */
 
 #include <avr/io.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 
 #include "uart.h"
 #include "board.h"
@@ -30,7 +30,7 @@ int main(void){
 
 	// init Uart
 	uartInit(BAUDRATE);
-	uartPutSting(test_str);
+	uartPutString(test_str);
 
 	while(1){
 		uartPutString(". ");
