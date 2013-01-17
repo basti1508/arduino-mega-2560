@@ -18,12 +18,12 @@
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 
-#include "board.h"
+#include "uart.h"
 
 void uartInit(uint32_t baudrate)
 {
 	// Set uart baudrate register
-	uint8_t ubrr  = ((F_CPU+baudrate*8L)/(baudrate*16L)-1);
+	uint8_t ubrr  = ((F_CPU + baudrate * 8L) / (baudrate * 16L) - 1);
 	UBRR0H = (unsigned int)(ubrr >> 8);
 	UBRR0L = (unsigned int)(ubrr);
 
@@ -31,23 +31,18 @@ void uartInit(uint32_t baudrate)
 	UCSR0B |= (1 << RXEN0) | (1 << TXEN0);
 
 	// set mode asynch 8n1
-	UCSR0C = (3<<UCSZ00);
+	UCSR0C = (3 << UCSZ00);
 }
 
-unsigned char uartGetByte(void)
+unsigned char uartReceiveByte(void)
 {
-	// Wait for rx ready bit
-	while(!(UCSR0A & (1 << RXC0)));
-
+	while (!(UCSR0A & (1 << RXC0)));
 	return UDR0;
 }
 
-void uartSendByte(unsigned char data)
+void uartTransmitByte(unsigned char data)
 {
-	// wait for tx ready bit
-	while(!(UCSR0A & (1 << UDRE0)));
-
-	// set data on the serial bus
+	while (!(UCSR0A&(1 << UDRE0)));
 	UDR0 = data;
 }
 
@@ -56,8 +51,8 @@ void uartPutString(const char *str)
 {
 	unsigned char c;
 
-	while((c = *str++))
-		uartSendByte(c);
+	while ((c = *str++))
+		uartTransmitByte(c);
 }
 
 // wirte data from programm memmory address
@@ -66,5 +61,5 @@ void uartPutString_P(const char *addr)
 	unsigned char c;
 
 	while((c = pgm_read_byte(addr++)))
-		uartSendByte(c);
+		uartTransmitByte(c);
 }

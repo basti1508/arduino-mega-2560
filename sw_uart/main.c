@@ -19,21 +19,19 @@
 #include <util/delay.h>
 
 #include "uart.h"
-#include "board.h"
 
-#define BAUDRATE 9600
+#define BAUDRATE 38400
 
 int main(void){
 
-	// initialize String for UART test
-	static const char test_str[] = "UART TEST STRING\n";
+	static const char str[] = "Das ist mein erstes U-ART programm\r\n";
 
 	// init Uart
 	uartInit(BAUDRATE);
-	uartPutString(test_str);
+	uartPutString(str);
 
-	while(1){
-		uartPutString(". ");
+	while (1){
+		uartPutString(".. ");
 		_delay_ms(500);
 	}
 

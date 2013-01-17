@@ -19,8 +19,8 @@
 #define _UART_H_
 
 void uartInit(uint32_t);
-unsigned char uartGetByte(void);
-void uartSendByte(unsigned char);
+unsigned char uartReceiveByte(void);
+void uartTransmitByte(unsigned char);
 void uartPutString(const char*);
 void uartPutString_P(const char*);
 
