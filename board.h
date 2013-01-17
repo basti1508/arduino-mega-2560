@@ -24,6 +24,6 @@
 #endif
 
 /* LED is located at PB5 (Arduino digital pin 13) */
-#define LED (1 << PB5)
+#define LED (1 << PB7)
 
 #endif /* _BOARD_H_ */
