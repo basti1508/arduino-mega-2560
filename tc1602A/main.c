@@ -26,18 +26,13 @@ int main(void)
 
 	// Init Display
 	_delay_ms(200);
-	tc1602A_Init();
+	tc1602a_Init();
 
 	// Mainloop
 	while(1)
 	{
-		tc1602A_putc('B');
-		tc1602A_putc('l');
-		tc1602A_putc('a');
-		tc1602A_putc('F');
-		tc1602A_putc('o');
-		tc1602A_putc('o');
-
+		tc1602a_cmd(TC1602A_HOME);
+		tc1602a_puts("BlaFoo");
 		_delay_ms(1000);
 	}	
 

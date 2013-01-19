@@ -21,7 +21,7 @@
 #include "board.h"
 #include "tc1602a.h"
 
-int tc1602A_Init(void){
+int tc1602a_Init(void){
 
 	// Set bus port as output
 	DDRA = 0xFF;
@@ -43,37 +43,46 @@ int tc1602A_Init(void){
 	_delay_ms(5);	
 
 	// Set Display Mode ==> 2-Line / 5x8 dots
-	tc1602A_cmd(TC1602A_FUNCTION_SET);
-	tc1602A_cmd(TC1602A_OFF);
-	tc1602A_cmd(TC1602A_CLEAR);
-	tc1602A_cmd(TC1602A_ENTRY_MODE_AUTO_RIGHT);
-	tc1602A_cmd(TC1602A_ON);
+	tc1602a_cmd(TC1602A_FUNCTION_SET);
+	tc1602a_cmd(TC1602A_OFF);
+	tc1602a_cmd(TC1602A_CLEAR);
+	tc1602a_cmd(TC1602A_ENTRY_MODE_AUTO_RIGHT);
+	tc1602a_cmd(TC1602A_ON);
 
 	return (0);
 	 
 }
 
-void tc1602A_cmd(char cmd)
+void tc1602a_cmd(unsigned char cmd)
 {
 	// Delete RS bit => Command following
 	PORTA &= ~(1 << TC1602A_RS);
-	tc1602A_send(cmd);
+	tc1602a_send(cmd);
 }
 
-void tc1602A_putc(char data)
+void tc1602a_putc(unsigned char data)
 {
 	PORTA |= (1 << TC1602A_RS);
-	tc1602A_send(data);
+	tc1602a_send(data);
 }
 
-void tc1602A_send(char data)
+void tc1602a_puts(const char *data)
+{
+	unsigned char c;
+	while ((c = *data++))
+	{
+		tc1602a_putc(c);
+	}
+}
+
+void tc1602a_send(unsigned char data)
 {
 	// calculate current RS
-	char rs = PORTA;
+	unsigned char rs = PORTA;
 	rs &= 4;
 
 	// Send High 4 bits
-	char tmp = data;
+	unsigned char tmp = data;
 	tmp &= 0xf0;
 	tmp |= rs;
 	PORTA = tmp;

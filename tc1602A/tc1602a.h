@@ -105,9 +105,10 @@
 #define TC1602A_DB5 5
 #define TC1602A_DB4 4
 
-int tc1602A_Init(void);
-void tc1602A_cmd(char cmd);
-void tc1602A_putc(char cmd);
-void tc1602A_send(char data);
+int tc1602a_Init(void);
+void tc1602a_cmd(unsigned char);
+void tc1602a_putc(unsigned char);
+void tc1602a_send(unsigned char);
+void tc1602a_puts(const char*);
 
 #endif // __TC1602A_H_
