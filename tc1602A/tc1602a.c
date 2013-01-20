@@ -75,6 +75,16 @@ void tc1602a_puts(const char *data)
 	}
 }
 
+void tc1602a_goto(unsigned char target)
+{
+	if (target <= 0x27 || (target >= 0x40 && target <= 0x67))
+	{
+		unsigned char fin_target;
+		fin_target = TC1602A_GOTO + target;
+		tc1602a_cmd(fin_target);
+	}
+}
+
 void tc1602a_send(unsigned char data)
 {
 	// calculate current RS

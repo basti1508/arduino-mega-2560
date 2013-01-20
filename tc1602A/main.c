@@ -17,6 +17,7 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <stdio.h>
 
 #include "board.h"
 #include "tc1602a.h"
@@ -27,12 +28,22 @@ int main(void)
 	// Init Display
 	_delay_ms(200);
 	tc1602a_Init();
+	char buffer[7];
+	uint16_t counter = 0;
 
 	// Mainloop
 	while(1)
 	{
-		tc1602a_cmd(TC1602A_HOME);
-		tc1602a_puts("BlaFoo");
+		tc1602a_goto(0x03);
+		tc1602a_puts("LC-DISPLAY");
+		tc1602a_goto(0x44);
+		sprintf(buffer, "[ %03d ]", counter);
+		tc1602a_puts(buffer);
+		counter = counter +1;
+		if (counter >= 999)
+		{
+			counter = 0;
+		}
 		_delay_ms(1000);
 	}	
 

@@ -95,7 +95,8 @@
 #define TC1602A_ENTRY_MODE_AUTO_LEFT 0x05
 #define TC1602A_ON  0x0C
 #define TC1602A_OFF 0x08
-#define TC1602A_FUNCTION_SET 0x28
+#define TC1602A_FUNCTION_SET 0x2C
+#define TC1602A_GOTO 0x80
 
 // PIN --> PORT Mapping
 #define TC1602A_E 3 
@@ -110,5 +111,6 @@ void tc1602a_cmd(unsigned char);
 void tc1602a_putc(unsigned char);
 void tc1602a_send(unsigned char);
 void tc1602a_puts(const char*);
+void tc1602a_goto(unsigned char);
 
 #endif // __TC1602A_H_
